@@ -62,10 +62,27 @@ echo "-----> Writing policy file"
 mkdir -p $INSTALL_DIR/etc/ImageMagick
 cat > $INSTALL_DIR/policy.xml <<EOF
 <policymap>
-  <policy domain="coder" rights="none" pattern="EPHEMERAL" />
-  <policy domain="coder" rights="none" pattern="HTTPS" />
-  <policy domain="coder" rights="none" pattern="MVG" />
-  <policy domain="coder" rights="none" pattern="MSL" />
+  <policy domain="resource" name="temporary-path" value="/data/magick"/>
+  <policy domain="resource" name="memory" value="256MiB"/>
+  <policy domain="resource" name="list-length" value="32"/>
+  <policy domain="resource" name="width" value="8KP"/>
+  <policy domain="resource" name="height" value="8KP"/>
+  <policy domain="resource" name="map" value="512MiB"/>
+  <policy domain="resource" name="area" value="16KP"/>
+  <policy domain="resource" name="disk" value="1GiB"/>
+  <policy domain="resource" name="file" value="768"/>
+  <policy domain="resource" name="thread" value="2"/>
+  <policy domain="resource" name="time" value="120"/>
+  <policy domain="module" rights="read | write" pattern="URL" /> 
+  <policy domain="coder" rights="read | write" pattern="{MSVG,MVG,PS,PDF,XPS}" />
+  <policy domain="filter" rights="read | write" pattern="*" />
+  <policy domain="delegate" rights="read | write" pattern="*" />
+  <policy domain="module" rights="read | write" pattern="*" />
+  <policy domain="path" rights="none" pattern="@*"/>  <!-- indirect reads not permitted -->
+  <policy domain="cache" name="memory-map" value="anonymous"/>
+  <policy domain="cache" name="synchronize" value="true"/>
+  <policy domain="cache" name="shared-secret" value="my-secret-passphrase" stealth="True"/>
+  <policy domain="system" name="shred" value="1"/>
 </policymap>
 EOF
 
